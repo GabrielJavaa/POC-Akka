@@ -13,7 +13,7 @@ public class Ator1 extends AbstractActor {
         return Props.create(Ator1.class);
     }
 
-//    private ActorRef
+
 
     private final LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
 
