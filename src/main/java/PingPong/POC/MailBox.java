@@ -15,4 +15,15 @@ public class MailBox {
         }
     }
 
+    public static class mailBox2 {
+        private final String txt;
+
+        public String tomadora(){
+            return txt;
+        }
+        public mailBox2(String txt) {
+            this.txt = txt;
+        }
+    }
+
 }
