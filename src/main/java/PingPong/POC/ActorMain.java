@@ -2,16 +2,19 @@ package PingPong.POC;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
+import com.typesafe.config.ConfigFactory;
+
 
 public class ActorMain {
 
 
-    public static void main (String[] args){
+    public static void main(String[] args) {
 
 
-        ActorSystem system = ActorSystem.create("actor_system");
-        ActorRef actor1 = system.actorOf(Ator1.props(),"actor1");
+        ActorSystem system = ActorSystem.create("ActorSystemPing", ConfigFactory.load().getConfig("ActorSystemPing"));
+        ActorRef actor = system.actorOf(Ator1.props(), "Actor1");
 
-        actor1.tell(new MailBox.mailBox1("ping"),ActorRef.noSender());
+        actor.tell(new MailBox.mailBox1("ping"), null);
+
     }
 }

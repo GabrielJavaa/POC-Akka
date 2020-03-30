@@ -1,39 +1,32 @@
 package PingPong.POC;
 
-import akka.actor.AbstractActor;
-import akka.actor.ActorRef;
-import akka.actor.Props;
+import akka.actor.*;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 
-public class Ator1 extends AbstractActor {
+import java.io.Serializable;
 
-    String msg = "ping";
+public class Ator1 extends UntypedAbstractActor implements Serializable {
+
 
     public static Props props() {
         return Props.create(Ator1.class);
     }
 
-    private ActorRef actor2 = getContext().actorOf(Actor2.props(),"actor2");
+    private String path = "akka.tcp://ActorSystemPong@127.0.0.1:2553/user/Actor2";
+
+    private ActorSelection selection = getContext().actorSelection(path);
 
     private final LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
 
     @Override
-    public Receive createReceive() {
-        return receiveBuilder()
-                .match(String.class, this::mensagemParaPong)
-                .match(MailBox.mailBox2.class, this::recebido)
-                .build();
+    public void onReceive(Object message) throws Throwable {
+        if (message instanceof MailBox.mailBox1) {
+            log.info("iniciando");
+            selection.tell(new MailBox.mailBox1("Ping"), getSelf());
+        }else if(message instanceof  MailBox.mailBox2){
+            log.info("recebendo" + ((MailBox.mailBox2) message).getPong());
+        }
     }
 
-    private void mensagemParaPong(String s) {
-        log.info("Deu boa: {}", s);
-        log.info(msg + " dale");
-        getSender().tell(new MailBox.mailBox1(msg), getSelf());
-    }
-    private void recebido(MailBox.mailBox2 t){
-        log.info("recebendo: {}",t.tomadora());
-
-
-    }
 }

@@ -1,29 +1,36 @@
 package PingPong.POC;
 
+import java.io.Serializable;
+
 public class MailBox {
 
 
-    public static class mailBox1 {
+    public static class mailBox1 implements Serializable {
 
-        private final String txt;
+        private final String ping;
 
-        public mailBox1(String txt){
-            this.txt = txt;
+        public mailBox1(String ping) {
+            this.ping = ping;
         }
-        public String tomadora(){
-            return txt;
+
+
+        public String getPing(){
+            return ping;
         }
     }
 
-    public static class mailBox2 {
-        private final String txt;
+    public static class mailBox2 implements Serializable {
 
-        public String tomadora(){
-            return txt;
+        private final String pong;
+
+        public mailBox2(String pong) {
+            this.pong = pong;
         }
-        public mailBox2(String txt) {
-            this.txt = txt;
+
+        public String getPong(){
+            return pong;
         }
+
     }
 
 }
