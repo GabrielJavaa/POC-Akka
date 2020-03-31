@@ -1,35 +1,37 @@
 package PingPong.POC;
 
-import akka.actor.AbstractActor;
-import akka.actor.ActorRef;
-import akka.actor.Props;
+import akka.actor.*;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 
-public class Actor2 extends AbstractActor {
+
+import java.io.Serializable;
+
+public class Actor2 extends UntypedAbstractActor implements Serializable {
+
 
     public static Props props(){
         return Props.create(Actor2.class);
     }
 
-    private ActorRef actor1 = getContext().actorOf(Ator1.props(), "actor1");
+
+    private String path = "akka.tcp://AkkaRemoteServer@127.0.0.1:2552/user/Actor1";
+//
+    private ActorSelection selection = getContext().actorSelection(path);
+
 
     private final LoggingAdapter log = Logging.getLogger(getContext().getSystem(),this);
 
+
     @Override
-    public Receive createReceive() {
-        return receiveBuilder()
-                .match(MailBox.mailBox1.class,this::ler)
-                .match(MailBox.mailBox2.class,this::reenviando)
-                .build();
+    public void onReceive(Object message) throws Throwable {
+        if (message instanceof MailBox.mailBox1){
+            log.info("recebendo" + ((MailBox.mailBox1) message).getPing());
+
+                getSender().tell(new MailBox.mailBox2("pong"),getSelf());
+
+            selection.tell(new MailBox.mailBox2("Pong"), getSelf());
+        }
     }
 
-    private void ler(MailBox.mailBox1 t){
-
-        log.info("Lendo Mensagem: {}",t.tomadora());
-    }
-    private void reenviando(MailBox.mailBox2 t){
-        log.info(t + "ENVIANDO");
-        actor1.tell(t.tomadora(),getSelf());
-    }
 }
