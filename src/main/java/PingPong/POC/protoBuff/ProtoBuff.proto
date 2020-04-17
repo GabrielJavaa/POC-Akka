@@ -1,0 +1,25 @@
+
+syntax="proto3";
+package protoBuff;
+option java_package = "BuffProto";
+option java_outer_classname = "ProtoBuff";
+option java_multiple_files = true;
+
+  message MensagemPing1 {
+   string mensagemPing1 = 1;
+  }
+  message MensagemPing2 {
+   string mensagemPing2 = 1;
+  }
+  message MensagemPing3 {
+   string mensagemPing3 = 1;
+  }
+  message MensagemPong1 {
+   string mensagemPong1 = 1;
+  }
+  message MensagemPong2 {
+   string mensagemPong2 = 1;
+  }
+  message MensagemPong3 {
+   string mensagemPong3 = 1;
+}
